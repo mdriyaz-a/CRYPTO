@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypto Terminal</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+</head>
+<body>
+    <h2>Crypto Web Terminal</h2>
+    <input type="text" id="command" placeholder="Enter a command">
+    <button onclick="sendCommand()">Run</button>
+    <pre id="output"></pre>
+
+    <script>
+        var socket = io();
+
+        function sendCommand() {
+            var command = document.getElementById("command").value;
+            socket.emit('run_command', {'command': command});
+        }
+
+        socket.on('command_output', function(data) {
+            document.getElementById("output").textContent = data.output;
+        });
+    </script>
+</body>
+</html>
